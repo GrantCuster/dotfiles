@@ -1,0 +1,16 @@
+#!/bin/sh
+# reload-browser - A cross-platform wrapper for reloading the current
+# browser tab
+# Eric Radman, 2014
+# http://eradman.com/entrproject/scripts/
+
+# Modified to just restart firefox on Linux
+
+app=Firefox
+cw=$(xdotool getwindowfocus -f)
+xdotool search --onlyvisible --class "$app" windowfocus key \
+    --delay 100 --window %@ 'ctrl+r' || {
+  1>&2 echo "unable to signal an application named \"$app\""
+}
+xdotool windowfocus $cw
+	

@@ -1,0 +1,187 @@
+
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+bg = #1d2021
+fg = #ebdbb2
+gray = #928374
+red = #fb4934
+
+[bar/main]
+width = 100%
+height = 22
+
+enable-ipc = true
+bottom = false
+
+background = ${colors.bg}
+foreground = ${colors.fg}
+
+dpi = 96
+font-0 = JetBrains Mono:pixelsize=10:style=Bold;3
+font-1 = Siji:pixelsize=16;0
+
+modules-left = i3 title 
+modules-right = temp mem pulseaudio wlan battery date 
+
+[module/i3]
+type = internal/i3
+format = <label-state><label-mode>
+format-padding = 0
+index-sort = true
+enable-scroll = false
+wrapping-scroll = false
+
+label-mode-padding = 1
+label-mode-foreground = ${colors.bg}
+label-mode-background = ${colors.fg}
+
+; focused = Active workspace on focused monitor
+label-focused = %name%
+label-focused-foreground = ${colors.bg}
+label-focused-background = #d5c4a1
+label-focused-padding = 1
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %name%
+label-unfocused-foreground = ${colors.fg}
+label-unfocused-background = ${colors.bg}
+label-unfocused-padding = 1
+
+; urgent = Workspace with urgency hint set
+label-urgent = %name%
+label-urgent-background = ${colors.red}
+label-urgent-padding = 1
+
+
+[module/title]
+type = internal/xwindow
+label = %title:0:100:...%
+label-padding = 2
+
+
+[module/cmus]
+type = custom/script
+
+exec = sh ~/.config/scripts/cmus.sh
+exec-if = pgrep -x cmus
+interval = 1
+
+click-left = cmus-remote --pause
+click-right = cmus-remote --stop
+
+format = <label>
+label = %output:0:100%
+format-padding = 2
+
+
+[module/time]
+type = internal/date
+interval = 5
+
+time = %I:%M %p 
+label = "%time%"
+label-padding = 1
+
+
+[module/net]
+type = custom/script
+exec = ~/.config/scripts/net.sh
+; label = %{F#a89984}%output% %{F-}
+label = "NET: %{F#fffead}%output%%{F-}"
+label-padding = 1
+tail = true
+
+
+[module/temp]
+type = custom/script
+exec = ~/.config/scripts/temp.sh
+label = %{A1:st -e zsh -c 'ctop && zsh':}%{F#928374}CPU%{F-} %output%%{A}
+label-padding = 1
+tail = true
+
+
+[module/mem]
+type = custom/script
+exec = ~/.config/scripts/mem.sh
+label = %{A1:st -e zsh -c 'ctop && zsh':}%{F#928374}MEM%{F-} %output%%{A}
+label-padding = 1
+tail = true
+
+
+[module/battery]
+type = internal/battery
+full-at = 99
+battery = BAT0
+adapter = ADP1
+
+label-charging = "%{F#928374}BAT%{F-} %{F#b8bb26}%percentage%%%{F-}"
+label-discharging = "%percentage%%"
+format-discharging = "%{F#928374}BAT%{F-} <ramp-capacity><label-discharging>%{F-}"
+label-full = " BATT: %{F#35ffb1}100%%{F-}"
+format-discharging-padding = 1
+label-full-padding = 1
+label-charging-padding = 1
+
+ramp-capacity-0 = %{F#fb4934} 
+ramp-capacity-1 = %{F}
+ramp-capacity-2 = %{F}
+ramp-capacity-3 = %{F}
+ramp-capacity-4 = %{F}
+ramp-capacity-5 = %{F}
+
+
+[module/wlan]
+type = internal/network
+interface = wlo1
+interval = 3.0
+
+; label-connected = %{A1:env XDG_CURRENT_DESKTOP=GNOME gnome-control-center &:}WIFI: %{F#fffead}%essid%%{F-}%{A}
+label-connected = %{A1:env XDG_CURRENT_DESKTOP=GNOME gnome-control-center &:}%{F#928374}WIFI%{F-} HOME%{A}
+label-disconnected = %{A1:env XDG_CURRENT_DESKTOP=GNOME gnome-control-center &:}WIFI %{F#fb4934}NONE%{F-}%{A}
+label-connected-padding = 1
+label-disconnected-padding = 1
+
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+label-volume = %{A1:st -e pulsemixer:}%{F#938374}VOL%{F-} %percentage%%%{A}
+label-volume-padding = 1
+format-muted = " MUT  "
+
+
+[module/pomodoro]
+type = custom/script
+exec = ~/.config/scripts/pomodoro --worktime 1500 --breaktime 300
+tail = true
+click-left = ~/.config/scripts/pomodoro toggle &
+
+
+[module/date]
+type = internal/date
+
+interval = 5.0
+date =  %Y.%m.%d%
+; label = " %{F#fffead}%{F-} %date%"
+time = %I:%M %p
+label = "%{F#928374}%date%%{F-}  %time%"
+label-padding = 1
+
+

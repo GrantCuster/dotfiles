@@ -1,0 +1,8 @@
+#!/bin/bash
+last=$(ls -p ~/gifs/src/ | grep -v / | tail -n 1)
+filename="${last%%.*}"
+gifname="gif-$(echo $filename | cut -d- -f2-)@4x.gif"
+ffmpeg -i ~/gifs/src/$last -filter:v "setpts=0.25*PTS" ~/gifs/src/4x/$filename@4x.mkv
+~/.local/bin/giffify.sh -w 800 -i ~/gifs/src/4x/$filename@4x.mkv -o ~/gifs/$gifname
+firefox -new-window ~/gifs/$gifname &
+alacritty --hold -e ls -sh ~/gifs/$gifname 

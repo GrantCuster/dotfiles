@@ -1,0 +1,2 @@
+#!/bin/bash
+ps axc -eo pid,cmd,%mem:10,%cpu --sort=-%mem | head -n 20

@@ -1,0 +1,7 @@
+#!/bin/bash
+last=$(ls -p ~/gifs/src/ | grep -v / | tail -n 1)
+  filename="${last%%.*}"
+  gifname="gif-$(echo $filename | cut -d- -f2-)@2x.gif"
+  ~/.local/bin/giffify-no-dither.sh -i ~/gifs/src/$last -o ~/gifs/$gifname -w 800
+  firefox -new-window ~/gifs/$gifname &
+  alacritty --hold -e ls -sh ~/gifs/$gifname 

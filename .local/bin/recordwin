@@ -1,0 +1,11 @@
+#!/bin/bash
+timestamp=`date '+%Y-%m-%d_%H-%M-%S'`
+videoname="mkv-$timestamp.mkv"
+slop=$(slop -f "%x %y %w %h %g %i") || exit 1
+read -r X Y W H G ID < <(echo $slop)
+# include title bar (i know height)
+MX=$((X+2))
+MW=$((W-4))
+MY=$((Y+2))
+MH=$((H-4))
+ffmpeg -y -framerate 30 -f x11grab -draw_mouse 0 -s "$MW"x"$MH" -i :0.0+$MX,$MY ~/gifs/src/$videoname

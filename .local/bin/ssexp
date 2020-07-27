@@ -1,0 +1,10 @@
+#!/bin/bash
+timestamp=`date '+%Y-%m-%d_%H-%M-%S'`
+filename="ssexp-$timestamp.png"
+slop=$(slop -f "%x %y %w %h %g %i") || exit 1
+read -r X Y W H G ID < <(echo $slop)
+MY=$((Y-18))
+MH=$((H+18))
+modified="$W"x"$H"+"$X"+"$Y"
+read -r G < <(echo $modified)
+import -window root -crop $G ~/screenshots/$filename

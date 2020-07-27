@@ -1,0 +1,12 @@
+#!/bin/bash
+timestamp=`date '+%Y-%m-%d_%H-%M-%S'`
+filename="shotwin-$timestamp.png"
+slop=$(slop -f "%x %y %w %h %g %i") || exit 1
+read -r X Y W H G ID < <(echo $slop)
+MX=$((X+2))
+MW=$((W-4))
+MY=$((Y+2))
+MH=$((H-4))
+modified="$MW"x"$MH"+"$MX"+"$MY"
+read -r G < <(echo $modified)
+import -window root -crop $G ~/screenshots/$filename
