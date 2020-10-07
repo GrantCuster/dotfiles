@@ -23,6 +23,60 @@ fg = #ebdbb2
 gray = #928374
 red = #fb4934
 
+[bar/splitleft]
+monitor = DVI-I-2-2
+width = 100%
+height = 22
+
+enable-ipc = true
+bottom = false
+
+background = ${colors.bg}
+foreground = ${colors.fg}
+
+dpi = 96
+font-0 = JetBrains Mono:pixelsize=10:style=Bold;3
+font-1 = Siji:pixelsize=16;0
+
+modules-left = i3 title 
+modules-right = pomodoro 
+
+[bar/splitright]
+monitor = DVI-I-1-1
+width = 100%
+height = 22
+
+enable-ipc = true
+bottom = false
+
+background = ${colors.bg}
+foreground = ${colors.fg}
+
+dpi = 96
+font-0 = JetBrains Mono:pixelsize=10:style=Bold;3
+font-1 = Siji:pixelsize=16;0
+
+modules-left = i3 
+modules-right = temp mem pulseaudio wlan battery date 
+
+[bar/extra]
+monitor = DVI-I-1-1
+width = 100%
+height = 22
+
+enable-ipc = true
+bottom = false
+
+background = ${colors.bg}
+foreground = ${colors.fg}
+
+dpi = 96
+font-0 = JetBrains Mono:pixelsize=10:style=Bold;3
+font-1 = Siji:pixelsize=16;0
+
+modules-left = i3 title 
+modules-right = date 
+
 [bar/main]
 width = 100%
 height = 22
@@ -38,36 +92,36 @@ font-0 = JetBrains Mono:pixelsize=10:style=Bold;3
 font-1 = Siji:pixelsize=16;0
 
 modules-left = i3 title 
-modules-right = temp mem pulseaudio wlan battery date 
+modules-right = pomodoro temp mem pulseaudio wlan battery date 
 
 [module/i3]
 type = internal/i3
-format = <label-state><label-mode>
-format-padding = 0
-index-sort = true
+pin-workspaces = true
+index-sort = false
 enable-scroll = false
 wrapping-scroll = false
+
+label-focused-foreground = ${colors.bg}
+label-focused-background = #d5c4a1
+
+format = <label-state> <label-mode>
 
 label-mode-padding = 1
 label-mode-foreground = ${colors.bg}
 label-mode-background = ${colors.fg}
 
-; focused = Active workspace on focused monitor
-label-focused = %name%
-label-focused-foreground = ${colors.bg}
-label-focused-background = #d5c4a1
+label-focused = %index%
 label-focused-padding = 1
 
-; unfocused = Inactive workspace on any monitor
-label-unfocused = %name%
-label-unfocused-foreground = ${colors.fg}
-label-unfocused-background = ${colors.bg}
+label-unfocused = %index%
 label-unfocused-padding = 1
 
-; urgent = Workspace with urgency hint set
-label-urgent = %name%
-label-urgent-background = ${colors.red}
+label-visible = %index%
+label-visible-padding = 1
+
+label-urgent = %index%
 label-urgent-padding = 1
+label-urgent-background = ${colors.red}
 
 
 [module/title]
@@ -172,6 +226,7 @@ type = custom/script
 exec = ~/.config/scripts/pomodoro --worktime 1500 --breaktime 300
 tail = true
 click-left = ~/.config/scripts/pomodoro toggle &
+click-right = ~/.config/scripts/pomodoro end &
 
 
 [module/date]

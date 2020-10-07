@@ -55,10 +55,13 @@ bindsym $mod+shift+Return exec st -d "$(readlink -e /proc/"$(pgrep -oP "$(xdo pi
 bindsym $mod+q kill
 
 # open firefox
-bindsym $mod+g exec firefox
+# bindsym $mod+g exec firefox
+
+# open firefox dev
+bindsym $mod+f exec fd
 
 # open config
-bindsym $mod+c exec st -e zsh -c 'vim ~/.config'
+bindsym $mod+c exec st -e zsh -i -c 'vim ~/.config'
 
 # stop ffmpeg
 bindsym $mod+x exec killall --user $USER --ignore-case --signal INT ffmpeg
@@ -76,7 +79,7 @@ set $black #1d2021
 
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec "/usr/local/bin/dmenu_run -fn 'JetBrains Mono:pixelsize=14:style=bold' -nb '#1d2021' -sf '#282828' -sb '#ebdbb2' -nf '#ebdbb2' -h 22"
+bindsym $mod+space exec "dmenu_run -fn 'JetBrains Mono:pixelsize=14:style=bold' -nb '#1d2021' -sf '#282828' -sb '#ebdbb2' -nf '#ebdbb2' -h 22"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -107,7 +110,7 @@ bindsym $mod+Shift+l move right
 # bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+bindsym $mod+t fullscreen toggle
 
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -119,10 +122,10 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+d focus mode_toggle
+# bindsym $mod+d focus mode_toggle
 
 
-bindsym $mod+v exec st -e zsh -c "vim -c VimwikiIndex ."
+bindsym $mod+w exec st -e zsh -i -c "vim -c VimwikiIndex ."
 
 
 # focus the parent container
@@ -140,35 +143,84 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% 
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
+# turn off mouse warping for mulltiple displalys
+# mouse_warping none
+
+# assign workspaces to screens
+# workspace 1 output eDP-1
+# workspace 2 output eDP-1
+# workspace 3 output eDP-1
+# workspace 4 output eDP-1
+# workspace 5 output eDP-1
+
+workspace 1 output DVI-I-2-2
+workspace 2 output DVI-I-2-2
+workspace 3 output DVI-I-2-2
+workspace 4 output DVI-I-2-2
+workspace 5 output DVI-I-2-2
+
+workspace 6 output DVI-I-1-1
+workspace 7 output DVI-I-1-1
+workspace 8 output DVI-I-1-1
+workspace 9 output DVI-I-1-1
+workspace 10 output DVI-I-1-1
+
+# workspace 1 output eDP-1
+# workspace 2 output eDP-1
+# workspace 3 output eDP-1
+# workspace 4 output eDP-1
+# workspace 5 output eDP-1
+
+# workspace 6 output DP-2
+# workspace 7 output DP-2
+# workspace 8 output DP-2
+# workspace 9 output DP-2
+# workspace 10 output DP-2
+
+workspace 6 output eDP-1
+workspace 7 output eDP-1
+workspace 8 output eDP-1
+workspace 9 output eDP-1
+workspace 10 output eDP-1
+
+# # workspace 6 output eDP-1
+# # workspace 7 output eDP-1
+# # workspace 8 output eDP-1
+# # workspace 9 output eDP-1
+# # workspace 10 output eDP-1
+
+# workspace 1 output DP-2
+# workspace 2 output DP-2
+# workspace 3 output DP-2
+# workspace 4 output DP-2
+# workspace 5 output DP-2
+
 # gaps inner 8
 
-set $ws0 ">"
 set $ws1 "1"
 set $ws2 "2"
 set $ws8 "8"
 
 # switch to workspace
-bindsym $mod+s workspace $ws0
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace $ws8
+bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
-bindsym $mod+Shift+s move container to workspace $ws0
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
 bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
@@ -217,7 +269,11 @@ bindsym $mod+b exec polybar-msg cmd toggle
 bindsym $mod+o exec "~/.local/bin/toggle_light_mode.sh"
 
 # switch between normal and presentation mode
-bindsym $mod+p exec "~/.local/bin/toggle_i3_mode.sh"
+bindsym $mod+i exec "~/.local/bin/toggle_i3_mode.sh"
+
+# pomodoro
+bindsym $mod+p exec "~/.config/scripts/pomodoro toggle"
+bindsym $mod+n exec "~/.config/scripts/pomodoro end"
 
 # disable keyboard laptop 
 # bindsym $mod+u exec $HOME/Scripts/toggle_touch
@@ -272,19 +328,10 @@ exec hsetroot -solid "#282828"
 # exec_always --no-startup-id feh --bg-fill ~/Pictures/rooms.png
 # exec_always --no-startup-id feh --bg-fill ~/s/eva/eva_background.png
 exec_always --no-startup-id xrdb $HOME/.Xresources
-exec --no-startup-id polybar -r main
+exec --no-startup-id "~/.local/bin/multiple_polybar"
 exec_always --no-startup-id xset r rate 220 24
 
-
-for_window [class="term1"] move container to workspace $ws0
-for_window [class="term2"] move container to workspace $ws1
-for_window [class="term3"] move container to workspace 10
-
-exec --no-startup-id st -c term1 -e zsh -c "neofetch && zsh"
-exec --no-startup-id st -c term2 -e zsh -c "vim -c VimwikiIndex ."
-exec --no-startup-id st -c term3 -e cmus
-exec --no-startup-id i3-msg "workspace >"
-exec --no-startup-id "compton -b --inactive-dim=0.1"
+# exec --no-startup-id st -c term1 -e zsh -c "neofetch && zsh"
 
 exec_always --no-startup-id ~/script/autotiling.py
 
