@@ -24,7 +24,7 @@ gray = #928374
 red = #fb4934
 
 [bar/splitleft]
-monitor = DVI-I-2-2
+monitor = DVI-I-1-1
 width = 100%
 height = 22
 
@@ -42,7 +42,7 @@ modules-left = i3 title
 modules-right = pomodoro 
 
 [bar/splitright]
-monitor = DVI-I-1-1
+monitor = DVI-I-2-2
 width = 100%
 height = 22
 

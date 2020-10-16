@@ -153,17 +153,18 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 # workspace 4 output eDP-1
 # workspace 5 output eDP-1
 
-workspace 1 output DVI-I-2-2
-workspace 2 output DVI-I-2-2
-workspace 3 output DVI-I-2-2
-workspace 4 output DVI-I-2-2
-workspace 5 output DVI-I-2-2
+workspace 6 output DVI-I-2-2
+workspace 7 output DVI-I-2-2
+workspace 8 output DVI-I-2-2
+workspace 9 output DVI-I-2-2
+workspace 10 output eDP-1
 
-workspace 6 output DVI-I-1-1
-workspace 7 output DVI-I-1-1
-workspace 8 output DVI-I-1-1
-workspace 9 output DVI-I-1-1
-workspace 10 output DVI-I-1-1
+workspace 1 output DVI-I-1-1
+workspace 2 output DVI-I-1-1
+workspace 3 output DVI-I-1-1
+workspace 4 output DVI-I-1-1
+workspace 5 output DP-1
+
 
 # workspace 1 output eDP-1
 # workspace 2 output eDP-1
@@ -274,6 +275,8 @@ bindsym $mod+i exec "~/.local/bin/toggle_i3_mode.sh"
 # pomodoro
 bindsym $mod+p exec "~/.config/scripts/pomodoro toggle"
 bindsym $mod+n exec "~/.config/scripts/pomodoro end"
+
+bindsym $mod+s layout stacking
 
 # disable keyboard laptop 
 # bindsym $mod+u exec $HOME/Scripts/toggle_touch
