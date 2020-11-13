@@ -1,77 +1,114 @@
-# Config
-# Guide: http://zsh.sourceforge.net/Guide/zshguide02.html 
-bindkey -v
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-HISTSIZE=1000
-SAVEHIST=1000
-HISTFILE=~/.history
+# Path to your oh-my-zsh installation.
+export ZSH="/home/grant/.oh-my-zsh"
 
-# Appends every command to the history file once it is executed
-setopt inc_append_history
-# Reloads the history whenever you use it
-setopt share_history
-# Save time of history commands
-setopt extended_history
-# Ignore adjacent dupes
-setopt hist_ignore_dups
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
 
-setopt auto_cd
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-# ls highlight colors config from bash (ubuntu probably)
-test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-alias ls="ls --color=auto"
-alias iso="date -u +%Y-%m-%dT%H:%M:%SZ"
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-zstyle ':completion:*' menu select=2
-autoload colors && colors
-# RPROMPT_PREFIX='%{'$'\e[1A''%}'
-# RPROMPT_SUFFIX='%{'$'\e[1B''%}'
-# RPROMPT=$RPROMPT_PREFIX'%t'$RPROMPT_SUFFIX
-precmd () { print -Pn "\e]2;st %~\a" } # title bar prompt
-PROMPT="%n %F{blue}%~%f $ " 
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-alias zathura='zathura --fork'
-alias ssh_feed='ssh -i /home/grant/s/aws/hugo.pem ubuntu@ec2-52-12-141-61.us-west-2.compute.amazonaws.com'
-alias cdcs='cd ~/s/cs'
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
 
-# import colorscheme from 'base16' asynchronously
-cat ~/.cache/base16/sequences
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
 
-source /home/grant/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
 
-# use what you have typed to filter history
-bindkey "$terminfo[kcuu1]" up-line-or-search
-bindkey "$terminfo[kcud1]" down-line-or-search
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+    git
+    autojump
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # pass ctrl + s through
 stty -ixon
 
-# vim mode cursor config
-# --------------
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+            eval "$("$BASE16_SHELL/profile_helper.sh")"
 
-# Remove mode switching delay.
-KEYTIMEOUT=5
-
-# Change cursor shape for different vi modes.
-# function zle-keymap-select {
-#   if [[ ${KEYMAP} == vicmd ]] ||
-#     [[ $1 = 'block' ]]; then
-#   echo -ne '\e[1 q'
-
-# elif [[ ${KEYMAP} == main ]] ||
-#   [[ ${KEYMAP} == viins ]] ||
-#   [[ ${KEYMAP} = '' ]] ||
-#   [[ $1 = 'beam' ]]; then
-# echo -ne '\e[5 q'
-#   fi
-# }
-# zle -N zle-keymap-select
-
-# # Use beam shape cursor on startup.
-# echo -ne '\e[5 q'
-
-# # Use beam shape cursor for each new prompt.
-# preexec() {
-#   echo -ne '\e[5 q'
-# }
