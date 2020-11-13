@@ -18,15 +18,16 @@
 ;==========================================================
 
 [colors]
-bg = #1d2021
+# bg = #1d2021
+bg = #000000
 fg = #ebdbb2
 gray = #928374
 red = #fb4934
 
 [bar/splitleft]
-monitor = DVI-I-1-1
+monitor = DP-2
 width = 100%
-height = 22
+height = 20
 
 enable-ipc = true
 bottom = false
@@ -35,16 +36,16 @@ background = ${colors.bg}
 foreground = ${colors.fg}
 
 dpi = 96
-font-0 = JetBrains Mono:pixelsize=10:style=Bold;3
+font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
 font-1 = Siji:pixelsize=16;0
 
 modules-left = i3 title 
-modules-right = pomodoro 
+# modules-right = pomodoro 
 
 [bar/splitright]
-monitor = DVI-I-2-2
+monitor = DP-1
 width = 100%
-height = 22
+height = 20
 
 enable-ipc = true
 bottom = false
@@ -53,11 +54,11 @@ background = ${colors.bg}
 foreground = ${colors.fg}
 
 dpi = 96
-font-0 = JetBrains Mono:pixelsize=10:style=Bold;3
+font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
 font-1 = Siji:pixelsize=16;0
 
 modules-left = i3 
-modules-right = temp mem pulseaudio wlan battery date 
+modules-right = temp mem wlan pulseaudio date 
 
 [bar/extra]
 monitor = DVI-I-1-1
@@ -203,7 +204,7 @@ ramp-capacity-5 = %{F}
 
 [module/wlan]
 type = internal/network
-interface = wlo1
+interface = wlp0s20f3
 interval = 3.0
 
 ; label-connected = %{A1:env XDG_CURRENT_DESKTOP=GNOME gnome-control-center &:}WIFI: %{F#fffead}%essid%%{F-}%{A}
@@ -238,5 +239,4 @@ date =  %Y.%m.%d%
 time = %I:%M %p
 label = "%{F#928374}%date%%{F-}  %time%"
 label-padding = 1
-
 
