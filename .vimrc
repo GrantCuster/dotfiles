@@ -1,5 +1,4 @@
 call plug#begin()
-Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree'
@@ -90,7 +89,7 @@ let g:jsx_ext_required=0
 " Make vim-prettier use prettier defaults
 let g:prettier#config#bracket_spacing="true"
 let g:prettier#config#jsx_bracket_same_line="false"
-let g:prettier#config#parser="babylon"
+" let g:prettier#config#parser="babylon"
 let g:prettier#config#single_quote="true"
 let g:prettier#config#trailing_comma="es5"
 let g:prettier#config#semi="false"
@@ -162,9 +161,9 @@ set updatetime=250
 let g:airline_powerline_fonts = 1
 
 " save
-noremap <silent> <C-w> :update<CR>
-vnoremap <silent> <C-w> <C-C>:update<CR>
-inoremap <silent> <C-w> <C-O>:update<CR>
+noremap <silent> <C-s> :update<CR>
+vnoremap <silent> <C-s> <C-C>:update<CR>
+inoremap <silent> <C-s> <C-O>:update<CR>
 
 " save and quit
 nnoremap <C-q> :wq!<cr>
