@@ -1,0 +1,9 @@
+window:
+  padding:
+    x: 4
+    y: 4
+font:
+  normal:
+    family: MD IO 0.1
+    style: Regular
+  size: 11.0
