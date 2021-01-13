@@ -1,4 +1,3 @@
-
 ;==========================================================
 ;
 ;
@@ -18,87 +17,73 @@
 ;==========================================================
 
 [colors]
-# bg = #1d2021
-bg = #000000
+bg = #1d2021
 fg = #ebdbb2
 gray = #928374
 red = #fb4934
 
-[bar/splitleft]
-monitor = DP-2
+[bar/main]
+monitor = DisplayPort-0
 width = 100%
-height = 20
-
-enable-ipc = true
-bottom = false
+height = 19
 
 background = ${colors.bg}
 foreground = ${colors.fg}
 
 dpi = 96
-font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
+# font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
+font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
 font-1 = Siji:pixelsize=16;0
 
-modules-left = i3 title 
-# modules-right = pomodoro 
+modules-left = i3 title
+modules-right = date time 
 
-[bar/splitright]
-monitor = DP-1
+
+[bar/left]
+monitor = DisplayPort-1
 width = 100%
-height = 20
-
-enable-ipc = true
-bottom = false
+height = 19
 
 background = ${colors.bg}
 foreground = ${colors.fg}
 
 dpi = 96
-font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
+# font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
+font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
 font-1 = Siji:pixelsize=16;0
 
 modules-left = i3 
-modules-right = temp mem wlan pulseaudio date 
 
-[bar/extra]
-monitor = DVI-I-1-1
+
+[bar/stats]
+monitor = HDMI-A-1
 width = 100%
-height = 22
-
-enable-ipc = true
-bottom = false
+height = 19
 
 background = ${colors.bg}
 foreground = ${colors.fg}
 
 dpi = 96
-font-0 = JetBrains Mono:pixelsize=10:style=Bold;3
+# font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
+font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
 font-1 = Siji:pixelsize=16;0
-
-modules-left = i3 title 
-modules-right = date 
-
-[bar/main]
-width = 100%
-height = 22
+font-2 = FontAwesome:pixelsize=8;2
 
 enable-ipc = true
-bottom = false
 
-background = ${colors.bg}
-foreground = ${colors.fg}
+modules-left = pulseaudio spotify 
+modules-right = temperature memory 
 
-dpi = 96
-font-0 = JetBrains Mono:pixelsize=10:style=Bold;3
-font-1 = Siji:pixelsize=16;0
 
-modules-left = i3 title 
-modules-right = pomodoro temp mem pulseaudio wlan battery date 
+[module/title]
+type = internal/xwindow
+format-padding = 1
+
 
 [module/i3]
 type = internal/i3
+index-sort = true
 pin-workspaces = true
-index-sort = false
 enable-scroll = false
 wrapping-scroll = false
 
@@ -118,6 +103,8 @@ label-unfocused = %index%
 label-unfocused-padding = 1
 
 label-visible = %index%
+label-visible-foreground = ${colors.bg}
+label-visible-background = #928374
 label-visible-padding = 1
 
 label-urgent = %index%
@@ -125,109 +112,107 @@ label-urgent-padding = 1
 label-urgent-background = ${colors.red}
 
 
-[module/title]
-type = internal/xwindow
-label = %title:0:100:...%
-label-padding = 2
+[module/temperature]
+type = internal/temperature
 
+interval = 0.5
 
-[module/cmus]
-type = custom/script
+; Thermal zone to use
+; To list all the zone types, run 
+; $ for i in /sys/class/thermal/thermal_zone*; do echo "$i: $(<$i/type)"; done
+; Default: 0
+thermal-zone = 0
 
-exec = sh ~/.config/scripts/cmus.sh
-exec-if = pgrep -x cmus
-interval = 1
+; Full path of temperature sysfs path
+; Use `sensors` to find preferred temperature source, then run
+; $ for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
+; to find path to desired file
+; Default reverts to thermal zone setting
+hwmon-path = /sys/devices/pci0000:00/0000:00:03.1/0000:2b:00.0/hwmon/hwmon2/temp1_input
 
-click-left = cmus-remote --pause
-click-right = cmus-remote --stop
+; Base temperature for where to start the ramp (in degrees celsius)
+; Default: 0
+base-temperature = 20
 
-format = <label>
-label = %output:0:100%
-format-padding = 2
+; Threshold temperature to display warning label (in degrees celsius)
+; Default: 80
+warn-temperature = 60
 
-
-[module/time]
-type = internal/date
-interval = 5
-
-time = %I:%M %p 
-label = "%time%"
 label-padding = 1
 
 
-[module/net]
-type = custom/script
-exec = ~/.config/scripts/net.sh
-; label = %{F#a89984}%output% %{F-}
-label = "NET: %{F#fffead}%output%%{F-}"
+[module/memory]
+type = internal/memory
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3
+
+label = %gb_used%
 label-padding = 1
-tail = true
-
-
-[module/temp]
-type = custom/script
-exec = ~/.config/scripts/temp.sh
-label = %{A1:st -e zsh -c 'ctop && zsh':}%{F#928374}CPU%{F-} %output%%{A}
-label-padding = 1
-tail = true
-
-
-[module/mem]
-type = custom/script
-exec = ~/.config/scripts/mem.sh
-label = %{A1:st -e zsh -c 'ctop && zsh':}%{F#928374}MEM%{F-} %output%%{A}
-label-padding = 1
-tail = true
-
-
-[module/battery]
-type = internal/battery
-full-at = 99
-battery = BAT0
-adapter = ADP1
-
-label-charging = "%{F#928374}BAT%{F-} %{F#b8bb26}%percentage%%%{F-}"
-label-discharging = "%percentage%%"
-format-discharging = "%{F#928374}BAT%{F-} <ramp-capacity><label-discharging>%{F-}"
-label-full = " BATT: %{F#35ffb1}100%%{F-}"
-format-discharging-padding = 1
-label-full-padding = 1
-label-charging-padding = 1
-
-ramp-capacity-0 = %{F#fb4934} 
-ramp-capacity-1 = %{F}
-ramp-capacity-2 = %{F}
-ramp-capacity-3 = %{F}
-ramp-capacity-4 = %{F}
-ramp-capacity-5 = %{F}
-
-
-[module/wlan]
-type = internal/network
-interface = wlp0s20f3
-interval = 3.0
-
-; label-connected = %{A1:env XDG_CURRENT_DESKTOP=GNOME gnome-control-center &:}WIFI: %{F#fffead}%essid%%{F-}%{A}
-label-connected = %{A1:env XDG_CURRENT_DESKTOP=GNOME gnome-control-center &:}%{F#928374}WIFI%{F-} HOME%{A}
-label-disconnected = %{A1:env XDG_CURRENT_DESKTOP=GNOME gnome-control-center &:}WIFI %{F#fb4934}NONE%{F-}%{A}
-label-connected-padding = 1
-label-disconnected-padding = 1
 
 
 [module/pulseaudio]
 type = internal/pulseaudio
 
-label-volume = %{A1:st -e pulsemixer:}%{F#938374}VOL%{F-} %percentage%%%{A}
-label-volume-padding = 1
-format-muted = " MUT  "
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+; If not, uses default sink
+sink = alsa_output.pci-0000_12_00.3.analog-stereo
+
+; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
+; Default: true
+use-ui-max = false
+
+; Interval for volume increase/decrease (in percent points)
+; Default: 5
+interval = 5
+
+label-volume = " %percentage%% "
+label-padding = 1
 
 
-[module/pomodoro]
+[module/network]
+type = internal/network
+; Name of the network interface to display. You can get the names of the
+; interfaces on your machine with `ip link`
+; Wireless interfaces often start with `wl` and ethernet interface with `eno` or `eth`
+interface = wlo1
+
+label-connected = " %local_ip% "
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3.0
+
+; Test connectivity every Nth update
+; A value of 0 disables the feature
+; NOTE: Experimental (needs more testing)
+; Default: 0
+;ping-interval = 3
+
+; @deprecated: Define min width using token specifiers (%downspeed:min% and %upspeed:min%)
+; Minimum output width of upload/download rate
+; Default: 3
+udspeed-minwidth = 5
+
+; Accumulate values from all interfaces
+; when querying for up/downspeed rate
+; Default: false
+accumulate-stats = true
+
+; Consider an `UNKNOWN` interface state as up.
+; Some devices like USB network adapters have 
+; an unknown state, even when they're running
+; Default: false
+unknown-as-up = true
+
+
+[module/spotify]
 type = custom/script
-exec = ~/.config/scripts/pomodoro --worktime 1500 --breaktime 300
-tail = true
-click-left = ~/.config/scripts/pomodoro toggle &
-click-right = ~/.config/scripts/pomodoro end &
+interval = 1
+format = <label>
+label-padding = 1
+exec = python /home/grant/.config/polybar/spotify_status.py -f '{artist} - {song}'
 
 
 [module/date]
@@ -236,7 +221,24 @@ type = internal/date
 interval = 5.0
 date =  %Y.%m.%d%
 ; label = " %{F#fffead}%{F-} %date%"
-time = %I:%M %p
-label = "%{F#928374}%date%%{F-}  %time%"
+label = %date%
 label-padding = 1
 
+
+[module/time]
+type = internal/date
+
+interval = 5.0
+time = %I:%M %p
+label = %time%
+label-padding = 1
+
+
+[module/pomobar]
+type=custom/ipc
+hook-0 = cat ~/.pomobaroutput
+initial=1
+click-left = ~/.config/polybar/pomobar.py --action=new &
+click-middle= ~/.config/polybar/pomobar.py --action=kill &
+click-right = ~/.config/polybar/pomobar.py --action=break &
+format-padding = 1
