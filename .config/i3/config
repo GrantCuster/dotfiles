@@ -3,21 +3,28 @@ set $mod Mod4
 font pango:JetBrains Mono NL Bold 8
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id i3-sensible-terminal 
+bindsym $mod+Return exec --no-startup-id alacritty  
+
+# start a terminal same dir
+bindsym $mod+Shift+Return exec --no-startup-id ~/.config/i3/alacritty_same_directory.sh 
+
 # kill focused window
 bindsym $mod+q kill
 
+focus_wrapping no
+mouse_warping none
+
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+h focus left; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+j focus down; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+k focus up; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+l focus right; exec --no-startup-id ~/.config/i3/warp.sh 
 
 # open browser
-bindsym $mod+g exec --no-startup-id sensible-browser
+bindsym $mod+g exec --no-startup-id chromium-browser
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec --no-startup-id "dmenu_run -fn 'JetBrains Mono NL:pixelsize=14:style=bold' -nb '#1d2021' -sf '#282828' -sb '#ebdbb2' -nf '#ebdbb2'"
+bindsym $mod+space exec --no-startup-id "dmenu_run -fn 'MD IO 0.1:pixelsize=14' -nb '#1d2021' -sf '#282828' -sb '#ebdbb2' -nf '#ebdbb2'"
 
 bindsym $mod+s split h
 bindsym $mod+v split v
@@ -25,10 +32,10 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout default
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+h move left; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+j move down; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+k move up; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+l move right; exec --no-startup-id ~/.config/i3/warp.sh 
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -38,6 +45,9 @@ bindsym $mod+Shift+space floating toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
+
+# stop ffmpeg (use with custom record and recordwin script)
+bindsym $mod+x exec --no-startup-id killall --user $USER --ignore-case --signal INT ffmpeg
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -51,42 +61,50 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
 
 # switch to workspace
-bindsym $mod+1 workspace number $ws1
-bindsym $mod+2 workspace number $ws2
-bindsym $mod+3 workspace number $ws3
-bindsym $mod+4 workspace number $ws4
-bindsym $mod+5 workspace number $ws5
-bindsym $mod+6 workspace number $ws6
-bindsym $mod+7 workspace number $ws7
-bindsym $mod+8 workspace number $ws8
-bindsym $mod+9 workspace number $ws9
-bindsym $mod+0 workspace number $ws10
+bindsym $mod+1 workspace number $ws1; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+2 workspace number $ws2; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+3 workspace number $ws3; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+4 workspace number $ws4; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+5 workspace number $ws5; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+6 workspace number $ws6; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+7 workspace number $ws7; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+8 workspace number $ws8; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+9 workspace number $ws9; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+0 workspace number $ws10; exec --no-startup-id ~/.config/i3/warp.sh 
 
 # assign workspaces to screens
-workspace 1 output DP-2
-workspace 2 output DP-2
-workspace 3 output DP-2
-workspace 4 output DP-2
-workspace 5 output DP-2
-workspace 6 output DP-1
-workspace 7 output DP-1
-workspace 8 output DP-1
-workspace 9 output DP-1
-workspace 10 output DP-1
+workspace 1 output DisplayPort-1
+workspace 2 output DisplayPort-1
+workspace 3 output DisplayPort-1
+workspace 4 output DisplayPort-1
+workspace 5 output DisplayPort-1
+workspace 6 output DisplayPort-0
+workspace 7 output DisplayPort-0
+workspace 8 output DisplayPort-0
+workspace 9 output DisplayPort-0
+workspace 10 output DisplayPort-0
+workspace 11 output HDMI-A-0
+workspace 12 output HDMI-A-1
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4
-bindsym $mod+Shift+5 move container to workspace number $ws5
-bindsym $mod+Shift+6 move container to workspace number $ws6
-bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $mod+Shift+1 move container to workspace number $ws1; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+2 move container to workspace number $ws2; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+3 move container to workspace number $ws3; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+4 move container to workspace number $ws4; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+5 move container to workspace number $ws5; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+6 move container to workspace number $ws6; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+7 move container to workspace number $ws7; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+8 move container to workspace number $ws8; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+9 move container to workspace number $ws9; exec --no-startup-id ~/.config/i3/warp.sh 
+bindsym $mod+Shift+0 move container to workspace number $ws10; exec --no-startup-id ~/.config/i3/warp.sh 
+
+# scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -97,21 +115,21 @@ bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'You pressed 
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+# These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+# Pressing left will shrink the window’s width.
+# Pressing right will grow the window’s width.
+# Pressing up will shrink the window’s height.
+# Pressing down will grow the window’s height.
+  bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+# back to normal: Enter or Escape or $mod+r
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
@@ -144,12 +162,22 @@ for_window [class=".*"] border pixel 1
 
 #                       border  bg      text    ind     child
 client.focused          $base00 $base01 $base06 $base00 $base00 
-client.focused_inactive $base00 $base00 $base06 $base00 $base00 
+client.focused_inactive $base00 $base01 $base06 $base00 $base00 
 client.unfocused        $base00 $base00 $base06 $base00 $base00 
 client.urgent           $base08 $base08 $base08 $base08 $base08 
 
-
 # Startup
-
 exec_always --no-startup-id hsetroot -solid "#282828"
 exec_always --no-startup-id xset r rate 220 24
+exec_always --no-startup-id ~/.config/polybar/polybar.sh 
+exec_always --no-startup-id python3 ~/.config/i3/autotiling.py 
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
+
+bindsym XF86AudioPlay exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+bindsym XF86AudioNext exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+bindsym XF86AudioPrev exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+# bindsym XF86AudioPlay exec --no-startup-id xdotool key --window $(xdotool search --classname spt) space
