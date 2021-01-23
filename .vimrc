@@ -8,6 +8,7 @@ call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'tpope/vim-commentary'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -69,7 +70,16 @@ nnoremap k gk
 
 " nerdtree shortuct
 let g:NERDTreeWinPos = "right"
+let NERDTreeMinimalUI=1
+" open nerdtree on enter
+autocmd VimEnter * NERDTree
+autocmd VimEnter * if argc() | wincmd p | endif
+" always show hidden files
+let NERDTreeShowHidden=1
 map <Leader>n :NERDTreeToggle<CR>
+" find current file in nerdtree
+nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+
 
 " smartcase search
 set ignorecase
@@ -138,7 +148,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
 " file search
 map <Leader>p :GitFiles<CR>
 " string search (ripgrep must be installed)
-map <Leader>f :Rg<CR>
+" map <Leader>f :Rg<CR>
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
       \ { 'fg': ['fg', 'Normal'],
