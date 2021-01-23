@@ -31,8 +31,8 @@ background = ${colors.bg}
 foreground = ${colors.fg}
 
 dpi = 96
-# font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
-font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
+font-0 = JetBrains Mono NL:pixelsize=10:style=Medium,Regular;2
+# font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
 font-1 = Siji:pixelsize=16;0
 
 modules-left = i3 title
@@ -48,8 +48,8 @@ background = ${colors.bg}
 foreground = ${colors.fg}
 
 dpi = 96
-# font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
-font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
+font-0 = JetBrains Mono NL:pixelsize=10:style=Medium,Regular;2
+# font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
 font-1 = Siji:pixelsize=16;0
 
 modules-left = i3 
@@ -58,21 +58,21 @@ modules-left = i3
 [bar/stats]
 monitor = HDMI-A-1
 width = 100%
-height = 19
+height = 20
 
 background = ${colors.bg}
 foreground = ${colors.fg}
 
 dpi = 96
-# font-0 = JetBrains Mono NL:pixelsize=10:style=Bold;3
-font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
+font-0 = JetBrains Mono NL:pixelsize=10:style=Medium,Regular;2
+# font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
 font-1 = Siji:pixelsize=16;0
 font-2 = FontAwesome:pixelsize=8;2
 
 enable-ipc = true
 
 modules-left = pulseaudio spotify 
-modules-right = temperature memory 
+modules-right = temperature gpu_temp memory 
 
 
 [module/title]
@@ -138,7 +138,41 @@ base-temperature = 20
 ; Default: 80
 warn-temperature = 60
 
-label-padding = 1
+format-padding = 1
+
+format = CPU <label>
+
+
+
+[module/gpu_temp]
+type = internal/temperature
+
+interval = 1
+
+; Thermal zone to use
+; To list all the zone types, run 
+; $ for i in /sys/class/thermal/thermal_zone*; do echo "$i: $(<$i/type)"; done
+; Default: 0
+thermal-zone = 0
+
+; Full path of temperature sysfs path
+; Use `sensors` to find preferred temperature source, then run
+; $ for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
+; to find path to desired file
+; Default reverts to thermal zone setting
+hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp2_input
+
+; Base temperature for where to start the ramp (in degrees celsius)
+; Default: 0
+base-temperature = 20
+
+; Threshold temperature to display warning label (in degrees celsius)
+; Default: 80
+warn-temperature = 80
+
+format-padding = 1
+
+format = GPU <label>
 
 
 [module/memory]
@@ -149,7 +183,8 @@ type = internal/memory
 interval = 3
 
 label = %gb_used%
-label-padding = 1
+format-padding = 1
+format = MEM <label>
 
 
 [module/pulseaudio]
