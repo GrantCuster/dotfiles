@@ -24,7 +24,7 @@ bindsym $mod+l focus right; exec --no-startup-id ~/.config/i3/warp.sh
 bindsym $mod+g exec --no-startup-id chromium-browser
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec --no-startup-id "dmenu_run -fn 'MD IO 0.1:pixelsize=14' -nb '#1d2021' -sf '#282828' -sb '#ebdbb2' -nf '#ebdbb2'"
+bindsym $mod+space exec --no-startup-id "dmenu_run -fn 'JetBrains Mono NL:style=medium,regular:pixelsize=14' -nb '#1d2021' -sf '#282828' -sb '#ebdbb2' -nf '#ebdbb2'"
 
 bindsym $mod+s split h
 bindsym $mod+v split v
