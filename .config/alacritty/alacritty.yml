@@ -4,6 +4,6 @@ window:
     y: 4
 font:
   normal:
-    family: MD IO 0.1
-    style: Regular
+    family: JetBrains Mono NL 
+    style: Medium,Regular
   size: 11.0
