@@ -8,6 +8,7 @@ call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'tpope/vim-commentary'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -23,10 +24,10 @@ let g:coc_global_extensions = [
       \ 'coc-prettier',
       \ 'coc-json',
       \ ]
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
 Plug 'michal-h21/vim-zettel'
-Plug 'michal-h21/vimwiki-sync'
+" Plug 'michal-h21/vimwiki-sync'
 call plug#end()
 
 set nocompatible
@@ -69,7 +70,16 @@ nnoremap k gk
 
 " nerdtree shortuct
 let g:NERDTreeWinPos = "right"
+let NERDTreeMinimalUI=1
+" open nerdtree on enter
+" autocmd VimEnter * NERDTree
+" autocmd VimEnter * if argc() | wincmd p | endif
+" always show hidden files
+let NERDTreeShowHidden=1
 map <Leader>n :NERDTreeToggle<CR>
+" find current file in nerdtree
+nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+
 
 " smartcase search
 set ignorecase
@@ -131,14 +141,19 @@ set foldmethod=syntax
 set foldlevel=99
 let g:vimwiki_folding = 'list'
 
+" set undo file
+set undodir=~/.vim/undo-dir
+set undofile
+
 " vimwiki syntax markdown
 let g:vimwiki_list = [{'path': '~/vimwiki/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
 
 " file search
 map <Leader>p :GitFiles<CR>
+map <Leader>e :Files<CR>
 " string search (ripgrep must be installed)
-map <Leader>f :Rg<CR>
+" map <Leader>f :Rg<CR>
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
       \ { 'fg': ['fg', 'Normal'],
@@ -176,7 +191,7 @@ set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
-set updatetime=300
+set updatetime=100
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
@@ -184,16 +199,16 @@ set shortmess+=c
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 " Use <c-space> to trigger completion.
 " if has('nvim')
@@ -207,10 +222,9 @@ endfunction
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>j <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>k <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
