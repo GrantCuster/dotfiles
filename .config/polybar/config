@@ -22,8 +22,9 @@ fg = #ebdbb2
 gray = #928374
 red = #fb4934
 
-[bar/main]
-monitor = DisplayPort-0
+[bar/topleft]
+monitor = DisplayPort-1
+# monitor = DisplayPort-0
 width = 100%
 height = 19
 
@@ -36,10 +37,10 @@ font-0 = JetBrains Mono NL:pixelsize=10:style=Medium,Regular;2
 font-1 = Siji:pixelsize=16;0
 
 modules-left = i3 title
-modules-right = date time 
+modules-right = temperature gpu_temp
 
 
-[bar/left]
+[bar/topper]
 monitor = DisplayPort-1
 width = 100%
 height = 19
@@ -52,10 +53,27 @@ font-0 = JetBrains Mono NL:pixelsize=10:style=Medium,Regular;2
 # font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
 font-1 = Siji:pixelsize=16;0
 
-modules-left = i3 
+modules-left = i3 title
+modules-right =  date time 
 
 
-[bar/stats]
+[bar/botleft]
+monitor = HDMI-A-1
+width = 100%
+height = 19
+
+background = ${colors.bg}
+foreground = ${colors.fg}
+
+dpi = 96
+font-0 = JetBrains Mono NL:pixelsize=10:style=Medium,Regular;2
+# font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
+font-1 = Siji:pixelsize=16;0
+
+modules-left = i3 title
+
+
+[bar/bottom]
 monitor = HDMI-A-1
 width = 100%
 height = 20
@@ -71,8 +89,39 @@ font-2 = FontAwesome:pixelsize=8;2
 
 enable-ipc = true
 
-modules-left = pulseaudio spotify 
-modules-right = temperature gpu_temp memory 
+modules-left = i3 spotify 
+modules-right = temperature gpu_temp pulseaudio-control
+
+[bar/vnc]
+monitor = DVI-D-0
+width = 100%
+height = 60
+
+background = ${colors.bg}
+foreground = ${colors.fg}
+
+dpi = 96
+font-0 = JetBrains Mono NL:pixelsize=10:style=Medium,Regular;2
+# font-0 = MD IO 0.1:pixelsize=10:style=Regular;2
+font-1 = Siji:pixelsize=16;0
+font-2 = FontAwesome:pixelsize=8;2
+
+enable-ipc = true
+
+modules-right = goup godown
+
+
+[module/goup]
+type = custom/text
+content = go up
+click-left = xdotool key shift+space
+content-padding = 2
+
+[module/godown]
+type = custom/text
+content = go down
+click-left = xdotool key space
+content-padding = 2
 
 
 [module/title]
@@ -186,6 +235,24 @@ label = %gb_used%
 format-padding = 1
 format = MEM <label>
 
+[module/pulseaudio-control]
+type = custom/script
+tail = true
+label-padding = 1
+label-foreground = ${colors.fg}
+format = <label>
+
+# Icons mixed from Font Awesome 5 and Material Icons
+# You can copy-paste your options for each possible action, which is more
+# trouble-free but repetitive, or apply only the relevant ones (for example
+# --sink-blacklist is only needed for next-sink).
+exec = pulseaudio-control --sink-nicknames-from "device.description" --sink-nickname "alsa_output.pci-0000_2d_00.4.analog-stereo: SPKR" --sink-nickname "alsa_output.usb-0b0e_Jabra_Link_380_3050750B7B16-00.analog-stereo: HDPH" listen
+click-right = exec pavucontrol &
+click-left = pulseaudio-control togmute
+click-middle = pulseaudio-control --sink-blacklist "alsa_output.pci-0000_2b_00.1.hdmi-stereo-extra2" next-sink
+scroll-up = pulseaudio-control --volume-step 5 --volume-max 100 up
+scroll-down = pulseaudio-control --volume-step 5 --volume-max 100 down
+
 
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -202,7 +269,7 @@ use-ui-max = false
 ; Default: 5
 interval = 5
 
-label-volume = " %percentage%% "
+label-volume = " ROOM %percentage%% "
 label-padding = 1
 
 
