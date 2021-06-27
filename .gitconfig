@@ -1,0 +1,9 @@
+[user]
+	name = Grant Custer
+	email = REPLACE
+  
+[alias]
+	br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
+	done = !git push origin HEAD
+	checkin = !git add -A && git commit -m 'chore: checkin'
+	checkdone = !git add -A && git commit -m 'chore: checkin' && git push origin HEAD
